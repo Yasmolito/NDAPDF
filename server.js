@@ -24,7 +24,7 @@ app.post('/api/start-signature', async (req, res) => {
   try {
     const { first_name, last_name, email } = req.body;
     // Fill NDA-template.pdf with user input
-    const templatePath = path.join(__dirname, 'public/NDA-template.pdf');
+    const templatePath = path.join(__dirname, 'public/NDA-template2.pdf');
     const pdfBytes = fs.readFileSync(templatePath);
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const form = pdfDoc.getForm();

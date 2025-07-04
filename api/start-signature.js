@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     const { first_name, last_name, email } = req.body;
     console.log('Received signature request for:', { first_name, last_name, email });
     // Fill NDA-template.pdf with user input
-    const templatePath = path.join(__dirname, '../public/NDA-template.pdf');
+    const templatePath = path.join(__dirname, '../public/NDA-template2.pdf');
     const pdfBytes = fs.readFileSync(templatePath);
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const form = pdfDoc.getForm();
@@ -150,7 +150,7 @@ export default async function handler(req, res) {
 router.post('/fill-nda', async (req, res) => {
   try {
     const { firstName, lastName, address } = req.body;
-    const templatePath = path.join(__dirname, '../public/NDA-template.pdf');
+    const templatePath = path.join(__dirname, '../public/NDA-template2.pdf');
     const pdfBytes = fs.readFileSync(templatePath);
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const form = pdfDoc.getForm();
