@@ -1,12 +1,16 @@
 import fetch from 'node-fetch';
 import FormData from 'form-data';
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const { PDFDocument } = require('pdf-lib');
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { PDFDocument } from 'pdf-lib';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const apiBaseUrl = 'https://api-sandbox.yousign.app/v3';
 const apiKey = process.env.YOUSIGN_API_KEY;
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const router = express.Router();
 
@@ -66,7 +70,6 @@ export default async function handler(req, res) {
       console.error('Failed to upload document:', document);
       return res.status(500).json({ error: 'Failed to upload document', details: document });
     }
-
     // 3. Add signer
     const signerPayload = {
       info: {
@@ -101,7 +104,6 @@ export default async function handler(req, res) {
       console.error('Failed to add signer:', signer);
       return res.status(500).json({ error: 'Failed to add signer', details: signer });
     }
-
     // 4. Activate signature request
     response = await fetch(`${apiBaseUrl}/signature_requests/${signatureRequest.id}/activate`, {
       method: 'POST',
@@ -112,18 +114,15 @@ export default async function handler(req, res) {
     });
     const activateResp = await response.json();
     console.log('Activation response:', activateResp);
-
     // Try to get signature link from activation response
     let signatureLink = activateResp.signers?.[0]?.signature_link || null;
     if (signatureLink) {
       console.log('Signature link found in activation response:', signatureLink);
       return res.status(200).json({ iframeUrl: signatureLink, signatureRequestId: signatureRequest.id });
     }
-
     // 5. Poll for signature_link in the signers array (up to 20 attempts, 5s apart)
     const maxAttempts = 20;
     const delay = ms => new Promise(res => setTimeout(res, ms));
-
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       response = await fetch(`${apiBaseUrl}/signature_requests/${signatureRequest.id}`, {
         headers: {
@@ -139,7 +138,6 @@ export default async function handler(req, res) {
       }
       await delay(5000); // wait 5 seconds before next attempt
     }
-
     console.error('Failed to get signature link after polling for request:', signatureRequest.id);
     return res.status(500).json({ error: 'Failed to get signature link after polling.' });
   } catch (err) {
@@ -156,14 +154,11 @@ router.post('/fill-nda', async (req, res) => {
     const pdfBytes = fs.readFileSync(templatePath);
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const form = pdfDoc.getForm();
-
     form.getTextField('firstName').setText(firstName || '');
     form.getTextField('lastName').setText(lastName || '');
     form.getTextField('adress').setText(address || '');
-
     form.flatten(); // Optional: make fields uneditable
     const filledPdfBytes = await pdfDoc.save();
-
     res.set({
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="NDA-filled.pdf"',
