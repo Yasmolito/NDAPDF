@@ -17,11 +17,18 @@ export default async function handler(req, res) {
   try {
     const { first_name, last_name, email } = req.body;
     console.log('Received signature request for:', { first_name, last_name, email });
-    // Fetch the PDF from the public directory via HTTP
-    const pdfUrl = `https://${req.headers.host}/NDA.pdf`;
-    const pdfBuffer = Buffer.from(await fetch(pdfUrl).then(r => r.arrayBuffer()));
-    console.log('Fetched PDF from:', pdfUrl);
-
+    // Fill NDA-template.pdf with user input
+    const templatePath = path.join(__dirname, '../public/NDA-template.pdf');
+    const pdfBytes = fs.readFileSync(templatePath);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const form = pdfDoc.getForm();
+    form.getTextField('firstName').setText(first_name || '');
+    form.getTextField('lastName').setText(last_name || '');
+    form.getTextField('adress').setText(email || ''); // Using email for address field as no address field in form
+    form.flatten();
+    const filledPdfBytes = await pdfDoc.save();
+    // Use the filled PDF for Yousign
+    const pdfBuffer = Buffer.from(filledPdfBytes);
     // 1. Create signature request
     let response = await fetch(`${apiBaseUrl}/signature_requests`, {
       method: 'POST',
@@ -41,18 +48,17 @@ export default async function handler(req, res) {
       console.error('Failed to create signature request:', signatureRequest);
       return res.status(500).json({ error: 'Failed to create signature request', details: signatureRequest });
     }
-
     // 2. Upload document
-    const form = new FormData();
-    form.append('file', pdfBuffer, 'file.pdf');
-    form.append('nature', 'signable_document');
+    const formData = new FormData();
+    formData.append('file', pdfBuffer, 'file.pdf');
+    formData.append('nature', 'signable_document');
     response = await fetch(`${apiBaseUrl}/signature_requests/${signatureRequest.id}/documents`, {
       method: 'POST',
       headers: {
         authorization: `Bearer ${apiKey}`,
-        ...form.getHeaders(),
+        ...formData.getHeaders(),
       },
-      body: form,
+      body: formData,
     });
     const document = await response.json();
     console.log('Document upload response:', document);
