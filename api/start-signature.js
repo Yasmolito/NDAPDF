@@ -19,8 +19,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   try {
-    const { first_name, last_name, email } = req.body;
-    console.log('Received signature request for:', { first_name, last_name, email });
+    const { first_name, last_name, email, address } = req.body;
+    console.log('Received signature request for:', { first_name, last_name, email, address });
     // Fill NDA-template.pdf with user input
     const templatePath = path.join(__dirname, '../public/NDA-template2.pdf');
     const pdfBytes = fs.readFileSync(templatePath);
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     const form = pdfDoc.getForm();
     form.getTextField('firstName').setText(first_name || '');
     form.getTextField('lastName').setText(last_name || '');
-    form.getTextField('address').setText(email || ''); // Using email for address field as no address field in form
+    form.getTextField('address').setText(address || '');
     form.flatten();
     const filledPdfBytes = await pdfDoc.save();
     // Use the filled PDF for Yousign

@@ -22,7 +22,7 @@ app.use(express.static('public'));
 
 app.post('/api/start-signature', async (req, res) => {
   try {
-    const { first_name, last_name, email } = req.body;
+    const { first_name, last_name, email, address } = req.body;
     // Fill NDA-template.pdf with user input
     const templatePath = path.join(__dirname, 'public/NDA-template2.pdf');
     const pdfBytes = fs.readFileSync(templatePath);
@@ -30,7 +30,7 @@ app.post('/api/start-signature', async (req, res) => {
     const form = pdfDoc.getForm();
     form.getTextField('firstName').setText(first_name || '');
     form.getTextField('lastName').setText(last_name || '');
-    form.getTextField('adress').setText(email || ''); // Using email for address field as no address field in form
+    form.getTextField('address').setText(address || '');
     form.flatten();
     const filledPdfBytes = await pdfDoc.save();
     // Save the filled PDF to a temp file
