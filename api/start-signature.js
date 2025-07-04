@@ -1,8 +1,14 @@
 import fetch from 'node-fetch';
 import FormData from 'form-data';
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const { PDFDocument } = require('pdf-lib');
 
 const apiBaseUrl = 'https://api-sandbox.yousign.app/v3';
 const apiKey = process.env.YOUSIGN_API_KEY;
+
+const router = express.Router();
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -134,4 +140,31 @@ export default async function handler(req, res) {
     console.error('Error in start-signature:', err);
     res.status(500).json({ error: err.message });
   }
-} 
+}
+
+// New endpoint to fill NDA-template.pdf with user input
+router.post('/fill-nda', async (req, res) => {
+  try {
+    const { firstName, lastName, address } = req.body;
+    const templatePath = path.join(__dirname, '../public/NDA-template.pdf');
+    const pdfBytes = fs.readFileSync(templatePath);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const form = pdfDoc.getForm();
+
+    form.getTextField('firstName').setText(firstName || '');
+    form.getTextField('lastName').setText(lastName || '');
+    form.getTextField('adress').setText(address || '');
+
+    form.flatten(); // Optional: make fields uneditable
+    const filledPdfBytes = await pdfDoc.save();
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment; filename="NDA-filled.pdf"',
+    });
+    res.send(Buffer.from(filledPdfBytes));
+  } catch (err) {
+    console.error('Error filling NDA PDF:', err);
+    res.status(500).send('Failed to fill NDA PDF');
+  }
+}); 

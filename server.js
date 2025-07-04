@@ -6,6 +6,7 @@ import cors from 'cors';
 import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { PDFDocument } from 'pdf-lib';
 
 const app = express();
 const PORT = 3000;
@@ -22,7 +23,21 @@ app.use(express.static('public'));
 app.post('/api/start-signature', async (req, res) => {
   try {
     const { first_name, last_name, email } = req.body;
-    const pdfPath = './NDA.pdf'; // Use the fixed file
+    // Fill NDA-template.pdf with user input
+    const templatePath = path.join(__dirname, 'public/NDA-template.pdf');
+    const pdfBytes = fs.readFileSync(templatePath);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const form = pdfDoc.getForm();
+    form.getTextField('firstName').setText(first_name || '');
+    form.getTextField('lastName').setText(last_name || '');
+    form.getTextField('adress').setText(email || ''); // Using email for address field as no address field in form
+    form.flatten();
+    const filledPdfBytes = await pdfDoc.save();
+    // Save the filled PDF to a temp file
+    const filledPath = path.join(__dirname, 'uploads', `NDA-filled-${Date.now()}.pdf`);
+    fs.writeFileSync(filledPath, filledPdfBytes);
+    // Use the filled PDF for Yousign
+    const pdfPath = filledPath;
 
     // 1. Create signature request
     let response = await fetch(`${apiBaseUrl}/signature_requests`, {
@@ -44,16 +59,16 @@ app.post('/api/start-signature', async (req, res) => {
     }
 
     // 2. Upload document
-    const form = new FormData();
-    form.append('file', fs.createReadStream(pdfPath), 'file.pdf');
-    form.append('nature', 'signable_document');
+    const formData = new FormData();
+    formData.append('file', fs.createReadStream(pdfPath), 'file.pdf');
+    formData.append('nature', 'signable_document');
     response = await fetch(`${apiBaseUrl}/signature_requests/${signatureRequest.id}/documents`, {
       method: 'POST',
       headers: {
         authorization: `Bearer ${apiKey}`,
-        ...form.getHeaders(),
+        ...formData.getHeaders(),
       },
-      body: form,
+      body: formData,
     });
     const document = await response.json();
     if (!document.id) throw new Error('Failed to upload document: ' + JSON.stringify(document));
