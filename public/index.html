@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veuillez signer l'accord de non divulgation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f5f6fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .centered-card {
+      background: #fff;
+      padding: 2.5em;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      max-width: 540px;
+      width: 100%;
+      margin: 2em auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .icon-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      background: #f4f8fd;
+      border-radius: 50%;
+      margin: 0 auto 1.5em auto;
+    }
+    .main-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #22223b;
+      margin-bottom: 0.7em;
+      margin-top: 0.5em;
+      text-align: center;
+    }
+    .intro-text {
+      font-size: 1.05em;
+      color: #22223b;
+      margin-bottom: 1.5em;
+      margin-top: -1em;
+      text-align: center;
+      font-weight: 400;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      padding-left: 0;
+    }
+    .form-group {
+      width: 100%;
+      margin-bottom: 1.2em;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-size: 1em;
+      font-weight: 600;
+      margin-bottom: 0.4em;
+      color: #22223b;
+    }
+    .form-group input[type="email"],
+    .form-group input[type="text"] {
+      padding: 0.8em;
+      border: 1px solid #e5e7eb;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: 'Inter', Arial, sans-serif;
+      outline: none;
+      transition: border 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+      display: block;
+      margin: 0 auto;
+    }
+    .form-group input:focus {
+      border: 2px solid #000;
+      background: #fff;
+    }
+    .cta-btn {
+      background: #22223b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.9em;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5em;
+      transition: background 0.2s, opacity 0.2s, color 0.2s, border 0.2s;
+      font-family: 'Inter', Arial, sans-serif;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+      width: 100%;
+      opacity: 1;
+      box-sizing: border-box;
+      display: block;
+      margin: 0 auto;
+      border: 2px solid transparent;
+    }
+    .cta-btn[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #f5f5f5 !important;
+      color: #b0b0b0 !important;
+      border: 1.5px solid #e5e7eb !important;
+    }
+    .cta-btn:hover:not([disabled]) {
+      background: transparent;
+      color: #000;
+      border: 2px solid #000;
+    }
+    #statusMessage {
+      margin-top: 1.5em;
+      font-weight: 600;
+      color: #22c55e;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    #emailInstruction {
+      margin-top: 1.5em;
+      color: #22223b;
+      font-size: 1.05em;
+      font-weight: 500;
+    }
+    .info-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7em;
+      background: #f7fafd;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.2em 1em;
+      margin-top: 2em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .info-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .info-text {
+      font-size: 0.98em;
+      color: #22223b;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="centered-card">
+    <div class="icon-circle">
+      <svg width="48" height="48" viewBox="0 -25.16 73.395 73.395" xmlns="http://www.w3.org/2000/svg">
+        <g id="Group_35" data-name="Group 35" transform="translate(-260.487 -410.384)">
+          <path id="Path_11" data-name="Path 11" d="M332.382,430.455H282.37a1.5,1.5,0,0,0,0,3h50.012a1.5,1.5,0,0,0,0-3Z" fill="#0c2c67"/>
+          <path id="Path_12" data-name="Path 12" d="M275.988,413.77a1.5,1.5,0,0,0-2.121,0l-5.41,5.41-5.41-5.41a1.5,1.5,0,0,0-2.121,2.121l5.41,5.41-5.41,5.409a1.5,1.5,0,1,0,2.121,2.121l5.41-5.409,5.41,5.409a1.5,1.5,0,0,0,2.121-2.121l-5.41-5.409,5.41-5.41A1.5,1.5,0,0,0,275.988,413.77Z" fill="#0c2c67"/>
+          <path id="Path_13" data-name="Path 13" d="M286.8,427.493a1.5,1.5,0,0,0,.891-.294,72.231,72.231,0,0,0,6.785-6.1c3.769-3.675,8.456-8.253,10.916-7.663a.823.823,0,0,1,.313.121c.346.632-1.092,3.423-1.706,4.615-1.137,2.209-2.036,3.954-1.5,5.355a2.183,2.183,0,0,0,1.277,1.27c1.881.723,3.928-.664,6.094-2.135,1.65-1.122,3.908-2.659,4.84-2.072.326.205.429,1.106.512,1.829.139,1.222.33,2.894,1.858,3.59,1.6.727,3.956.236,10.777-4.453a1.5,1.5,0,0,0-1.7-2.473c-5.558,3.822-7.289,4.2-7.751,4.2H318.4a7.233,7.233,0,0,1-.2-1.2c-.147-1.292-.348-3.059-1.9-4.031-2.593-1.627-5.529.37-8.12,2.131a23.815,23.815,0,0,1-2.6,1.609c.279-.676.74-1.572,1.085-2.244,1.323-2.569,2.692-5.226,1.766-7.24a3.244,3.244,0,0,0-2.346-1.787c-4.059-.976-8.745,3.6-13.7,8.433a70.035,70.035,0,0,1-6.476,5.837,1.5,1.5,0,0,0,.894,2.706Z" fill="#0c2c67"/>
+        </g>
+      </svg>
+    </div>
+    <form id="signatureForm">
+      <h1 class="main-title">Signature de l'accord de non divulgation</h1>
+      <div class="form-group">
+        <p class="intro-text">Avant de poursuivre, merci de compléter les informations ci-dessous pour signer notre accord de confidentialité. Veuillez renseigner votre nom, prénom et adresse email pour recevoir l'accord à signer.</p>
+      </div>
+      <div class="form-group">
+        <label for="email">Adresse e-mail</label>
+        <input type="email" id="email" name="email" required placeholder="email@exemple.com" />
+      </div>
+      <div class="form-group">
+        <label for="first_name">Prénom</label>
+        <input type="text" id="first_name" name="first_name" required placeholder="Votre prénom" />
+      </div>
+      <div class="form-group">
+        <label for="last_name">Nom</label>
+        <input type="text" id="last_name" name="last_name" required placeholder="Votre nom de famille" />
+      </div>
+      <button type="submit" class="cta-btn">Valider</button>
+    </form>
+    <div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(34,34,59,0.45); z-index:1000; align-items:center; justify-content:center;">
+      <div id="afterSubmitModal" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(0,0,0,0.12); padding:2.5em 2em 2em 2em; max-width:350px; width:90%; display:flex; flex-direction:column; align-items:center;">
+        <div class="icon-circle">
+          <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="24" fill="#e6f0fb"/>
+            <path d="M12 18c0-1.1.9-2 2-2h20c1.1 0 2 0.9 2 2v12c0 1.1-0.9 2-2 2H14c-1.1 0-2-0.9-2-2V18zm2 0l10 7 10-7" fill="none" stroke="#0c2c67" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p id="modalMessage" style="margin: 1.5em 0 1em 0; color: #22223b; font-size: 1.1em; font-weight: 500;"></p>
+        <button id="ctaBtn" class="cta-btn" disabled style="margin-top:1em;">Commencer le test</button>
+      </div>
+    </div>
+    <div id="iframeContainer"></div>
+    <div id="statusMessage"></div>
+    <div class="info-box">
+      <div class="info-icon">
+        <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#e6f0fb"/><path d="M10 6.25a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5Zm1 6.25V9.5a1 1 0 0 0-2 0v3a1 1 0 0 0 2 0Z" fill="#2563eb"/></svg>
+      </div>
+      <div class="info-text">
+        <strong>Protection des données</strong><br />
+        Vos informations personnelles seront utilisées uniquement dans le cadre de cet accord de confidentialité. Elles ne seront pas partagées avec des tiers.
+      </div>
+    </div>
+  </div>
+  <script>
+    let signatureRequestId = null;
+    let pollingInterval = null;
+    let userEmail = '';
+
+    async function pollSignatureStatus() {
+      if (!signatureRequestId) return;
+      const res = await fetch(`/api/signature-status?id=${signatureRequestId}`);
+      const result = await res.json();
+      let data = result;
+      if (typeof result.value === 'string') {
+        try {
+          data = JSON.parse(result.value);
+        } catch (e) {
+          console.error('Erreur lors de l\'analyse du statut:', result.value);
+        }
+      }
+      if (data.status === 'done' || data.signerStatus === 'signed' || data.event === 'signature_request.done') {
+        const ctaBtn = document.getElementById('ctaBtn');
+        ctaBtn.disabled = false;
+        ctaBtn.style.opacity = 1;
+        ctaBtn.textContent = "Commencer le test";
+        clearInterval(pollingInterval);
+      }
+    }
+
+    document.getElementById('signatureForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      userEmail = form.email.value;
+      document.getElementById('modalOverlay').style.display = 'flex';
+      document.getElementById('signatureForm').style.opacity = 0.5;
+      document.getElementById('signatureForm').style.pointerEvents = 'none';
+      document.getElementById('modalMessage').innerHTML = `Nous vous avons envoyé un lien de signature Yousign à l'adresse e-mail <strong>${userEmail}</strong>, veuillez signer le document pour commencer le test.`;
+      const data = {
+        first_name: form.first_name.value,
+        last_name: form.last_name.value,
+        email: userEmail
+      };
+      const res = await fetch('/api/start-signature', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (result.error) {
+        console.error("Erreur lors de l'envoi pour signature:", result.error);
+        return;
+      }
+      signatureRequestId = result.signatureRequestId;
+      if (signatureRequestId) {
+        pollingInterval = setInterval(pollSignatureStatus, 5000);
+      }
+    });
+
+    document.getElementById('ctaBtn').addEventListener('click', function() {
+      if (!this.disabled) {
+        window.location.href = 'https://app.maze.co/maze-preview/mazes/399595095';
+      }
+    });
+  </script>
+  <!-- Maze snippet start -->
+  <script>
+  (function (m, a, z, e) {
+    var s, t;
+    try {
+      t = m.sessionStorage.getItem('maze-us');
+    } catch (err) {}
+
+    if (!t) {
+      t = new Date().getTime();
+      try {
+        m.sessionStorage.setItem('maze-us', t);
+      } catch (err) {}
+    }
+
+    s = a.createElement('script');
+    s.src = z + '?apiKey=' + e;
+    s.async = true;
+    a.getElementsByTagName('head')[0].appendChild(s);
+    m.mazeUniversalSnippetApiKey = e;
+  })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '2fc575a7-e437-4b56-ab98-f0618ec68d74');
+  </script>
+  <!-- Maze snippet end -->
+</body>
+</html> 

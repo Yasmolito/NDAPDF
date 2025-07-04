@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signature envoyée</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f5f6fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .container {
+      background: #fff;
+      padding: 2.5em 2em 2em 2em;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      max-width: 400px;
+      width: 100%;
+      margin: 2em auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cta-btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.9em;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1em;
+      transition: background 0.2s, opacity 0.2s;
+      font-family: 'Inter', Arial, sans-serif;
+      box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+      width: 100%;
+      opacity: 1;
+    }
+    .cta-btn[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .cta-btn:hover:not([disabled]) {
+      background: #1d4ed8;
+    }
+    #statusMessage {
+      margin-top: 1.5em;
+      font-weight: 600;
+      color: #22c55e;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <svg width="64" height="64" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#2563eb"/><path d="M16 24a4 4 0 0 1 4-4h24a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V24Z" fill="#fff"/><path d="M20 24h24v.01L32 36 20 24.01V24Z" fill="#2563eb"/></svg>
+    <p style="margin: 1.5em 0 1em 0; color: #22223b; font-size: 1.1em; font-weight: 500;">Un email vous a été envoyé, signez le document reçu.<br>Une fois signé, cliquez sur continuer.</p>
+    <button id="ctaBtn" class="cta-btn" disabled>J'ai signé, je commence le test</button>
+    <div id="statusMessage"></div>
+  </div>
+  <script>
+    let signatureRequestId = sessionStorage.getItem('signatureRequestId');
+    let pollingInterval = null;
+
+    async function pollSignatureStatus() {
+      if (!signatureRequestId) return;
+      const res = await fetch(`/api/signature-status?id=${signatureRequestId}`);
+      const result = await res.json();
+      console.log('Polling result:', result); // Debug log
+      let data = result;
+      if (typeof result.value === 'string') {
+        try {
+          data = JSON.parse(result.value);
+        } catch (e) {
+          console.error('Failed to parse result.value:', result.value);
+        }
+      }
+      if (data.status === 'done' || data.signerStatus === 'signed' || data.event === 'signature_request.done') {
+        const ctaBtn = document.getElementById('ctaBtn');
+        ctaBtn.disabled = false;
+        ctaBtn.style.opacity = 1;
+        ctaBtn.textContent = "Commencer le test";
+        clearInterval(pollingInterval);
+        document.getElementById('statusMessage').textContent = "merci d'avoir signé le document";
+      }
+    }
+
+    window.onload = function() {
+      if (signatureRequestId) {
+        pollingInterval = setInterval(pollSignatureStatus, 5000);
+      }
+      // Add click handler for CTA
+      document.getElementById('ctaBtn').addEventListener('click', function() {
+        if (!this.disabled) {
+          window.location.href = 'https://app.maze.co/maze-preview/mazes/399595095';
+        }
+      });
+    };
+  </script>
+</body>
+</html> 
