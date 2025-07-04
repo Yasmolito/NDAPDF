@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     const form = pdfDoc.getForm();
     form.getTextField('firstName').setText(first_name || '');
     form.getTextField('lastName').setText(last_name || '');
-    form.getTextField('adress').setText(email || ''); // Using email for address field as no address field in form
+    form.getTextField('address').setText(email || ''); // Using email for address field as no address field in form
     form.flatten();
     const filledPdfBytes = await pdfDoc.save();
     // Use the filled PDF for Yousign
@@ -156,7 +156,7 @@ router.post('/fill-nda', async (req, res) => {
     const form = pdfDoc.getForm();
     form.getTextField('firstName').setText(firstName || '');
     form.getTextField('lastName').setText(lastName || '');
-    form.getTextField('adress').setText(address || '');
+    form.getTextField('address').setText(address || '');
     form.flatten(); // Optional: make fields uneditable
     const filledPdfBytes = await pdfDoc.save();
     res.set({
